@@ -1,12 +1,12 @@
-// src/services/bookReviews.js
+// src/services/bookreviews.js
 import { db } from './firebase';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 
-const reviewsCollection = collection(db, 'reviews');
+const bookreviewsCollection = collection(db, 'bookreviews');
 
 export const postReview = async (review) => {
   try {
-    await addDoc(reviewsCollection, review);
+    await addDoc(bookreviewsCollection, review);
   } catch (error) {
     console.error("Error posting review: ", error);
   }
@@ -14,9 +14,10 @@ export const postReview = async (review) => {
 
 export const getReviews = async () => {
   try {
-    const snapshot = await getDocs(reviewsCollection);
+    const snapshot = await getDocs(bookreviewsCollection);
     return snapshot.docs.map(doc => doc.data());
   } catch (error) {
     console.error("Error getting reviews: ", error);
+    return [];
   }
 };

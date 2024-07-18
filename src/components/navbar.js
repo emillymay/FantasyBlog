@@ -1,21 +1,36 @@
-// src/components/Header.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../components/authcontent'; // Ensure this path is correct
+import { signOut } from 'firebase/auth';
+import { auth } from '../services/firebase';
 
 const Navbar = () => {
+  const { user } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   return (
-    <header className="header">
-      <div className="logo">Book Blog</div>
-      <nav className="nav">
-        <ul className="nav-list">
-          <li className="nav-item"><Link to="/">Home</Link></li>
-          <li className="nav-item"><Link to="/bookreviews">Reviews</Link></li>
-          <li className="nav-item"><Link to="/post-review">Post a Review</Link></li>
-          <li className="nav-item"><Link to="/signup">Sign Up</Link></li>
-          <li className="nav-item"><Link to="/login">Login</Link></li>
-        </ul>
-      </nav>
-    </header>
+    <nav>
+      <Link to="/">Home</Link>
+      <Link to="/bookreviews">Book Reviews</Link>
+      {user ? (
+        <>
+          <Link to="/post-review">Post a Review</Link>
+          <button onClick={handleLogout}>Log Out</button>
+        </>
+      ) : (
+        <>
+          <Link to="/login">Log In</Link>
+          <Link to="/signup">Sign Up</Link>
+        </>
+      )}
+    </nav>
   );
 };
 

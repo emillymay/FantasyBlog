@@ -1,8 +1,7 @@
-// src/components/Reviews.js
+// src/components/bookreview.js
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/firebase';
 import { collection, getDocs } from 'firebase/firestore';
-
 
 const BookReviews = () => {
   const [reviews, setReviews] = useState([]);
